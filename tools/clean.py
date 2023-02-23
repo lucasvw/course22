@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import nbformat
 from nbdev.export import *
 from nbdev.clean import *
@@ -31,5 +32,7 @@ def proc_all(
         dest_path:str='clean'): # Path for dest NBs
     path,dest_path = Path(path),Path(dest_path)
     fns = [f for f in path.iterdir() if f.suffix == '.ipynb' and not f.name.startswith('_')]
+    if len(fns) > 0 and not os.path.isdir(dest_path):
+        os.makedirs(dest_path)
     for fn in fns: proc_nb(fn, dest=dest_path)
 
